@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS and Fonts -->
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <title>Digital Filter Desginer</title>
+</head>
+
+
+
+
+
+
+<body>
+    <!--  Custom Context Menu -->
+    <div class="wrapper">
+        <div class="content">
+            <ul class="menu">
+
+                <li class="item" id="delete">
+                    <span class="material-symbols-outlined">delete</span>
+                    <p>Delete</p>
+                </li>
+
+                <li class="item" id="close">
+                    <span class="material-symbols-outlined">cancel</span>
+                    <p>Close</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<!-- First Column -->
+    <div class="z-plane">
+
+        <div class="graph">
+            <canvas id="canvas" class="canvas"></canvas>
+        </div>
+
+
+        <div class="graph_buttons">
+
+            <div class="input_container">
+                <input type="radio" name="filter_btn" id="zero" value="zero" checked>
+                <div class="radio_tile">
+                    <span class="material-symbols-outlined">exposure_zero</span>
+                    <label for="zero">Zero</label>
+                </div>
+            </div>
+
+            <div class="input_container">
+                <input type="radio" name="filter_btn" id="pole" value="pole">
+                <div class="radio_tile">
+                    <span class="material-symbols-outlined">close</span>
+                    <label for="pole">Pole</label>
+                </div>
+            </div>
+
+            <div class="clear">
+                <button class="clear_btn" id="clear_btn">Clear All</button>
+            </div>
+        </div>
+
+    </div>
+
+<!-- Second Column -->
+    <div class="response">        
+        <div class="plot_container">
+            <div id="magnitude_response" class="response_plot"></div>
+        </div>
+
+        <div class="plot_container">
+            <div id="phase_response" class="response_plot"></div>
+        </div>
+    </div>
+
+<!-- Third Column -->
+    <div class="signal">
+
+    </div>
+
+
+
+
+    <script src="../static/js/index.js"></script>
+    <script src="../static/js/plotting.js"></script>
+
+</body>
+</html>

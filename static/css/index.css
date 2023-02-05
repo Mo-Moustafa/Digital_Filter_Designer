@@ -1,0 +1,218 @@
+body {
+    background: rgba(25, 44, 77, 0.854);
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+/*//////// First Column /////////*/
+/* Z-Plane Canvas */
+.z-plane{
+    background-color: rgb(238, 238, 238);
+    min-width: 410px;
+    height: 95vh;
+
+    border-radius: 15px;
+}
+
+#canvas{
+    transform: translateY(100px);
+    margin-left: 25px;
+    background: white;
+    border-radius: 10px;
+}
+
+
+/* Zeros and poles buttons */
+.graph_buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 300px;
+}
+
+.input_container{
+    position: relative;
+    height: 3rem;
+    width: 6rem;
+    margin: 0.5rem;
+}
+
+.input_container input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+    z-index: 2;
+    opacity: 0;
+}
+
+.input_container .radio_tile {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    border: 2px solid rgba(39, 71, 131, 0.854);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.input_container .radio_tile span {
+    color: rgba(39, 71, 131, 0.854);
+    font-size: 1.5rem;
+    margin-top: 3px;
+}
+
+.input_container .radio_tile label {
+    color: rgba(39, 71, 131, 0.854);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    margin-top: 1px;
+}
+
+input:checked + .radio_tile {
+    background-color: rgba(39, 71, 131, 0.854);
+    box-shadow: 0 0 8px rgba(39, 71, 131, 0.854);
+}
+
+input:hover + .radio_tile {
+    box-shadow: 0 0 8px rgba(39, 71, 131, 0.854);
+}
+
+input:checked + .radio_tile label,
+input:checked + .radio_tile span {
+    color: white;
+}
+
+.clear{
+    margin-left: 10px;
+}
+
+.clear button{
+    background-color: rgb(202, 7, 7);
+    width: 5rem;
+    height: 3rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    transition: ease 0.3s;
+}
+
+.clear_btn:hover{
+    box-shadow: 0 0 8px rgb(229, 9, 9)
+}
+
+.clear_btn:active{
+    width: 4.5rem;
+    height: 2.8rem;
+}
+/*//////// ----------- /////////*/
+
+
+
+
+
+
+/*//////// Second Column /////////*/
+
+.response{
+    background-color: rgb(238, 238, 238);
+    width: 600px;
+    
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 15px;
+
+}
+
+.plot_container{
+    background-color: white;
+    width: 550px;
+    height: 250px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+}
+
+.response_plot{
+    width: 550px;
+    height: 260px;
+}
+
+/* //////// Third Column ///////// */
+.signal{
+    background-color: rgb(238, 238, 238);
+    min-width: 460px;
+    height: 95vh;
+
+    border-radius: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*//////// Custom Context Menu /////////*/
+.wrapper{
+    position: absolute;
+    visibility: hidden;
+    width: 115px;
+    height: 90px;
+    background-color: rgba(33, 33, 33, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 12 35px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.wrapper .menu{
+    padding: 0px 5px;
+    transform: translateY(-7px);
+}
+
+.content .item{
+    color: white;
+    list-style: none;
+    font-size: 22px;
+    height: 35px;
+    display: flex;
+    padding: 0 5px 0 10px;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.content .item span{
+    font-size: 14px;
+}
+
+.content .item p {
+    font-size: 12px;
+    margin-left: 6px;
+}
+
+.content .item:hover{
+    background-color: rgba(0, 0, 0, 0.95);
+}
+/*//////// ----------- /////////*/
