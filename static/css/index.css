@@ -1,5 +1,5 @@
 body {
-    background: rgba(25, 44, 77, 0.854);
+    background: rgba(19, 33, 57, 0.854);
     padding: 10px 0;
     display: flex;
     flex-direction: row;
@@ -129,15 +129,12 @@ input:checked + .radio_tile span {
 .response{
     background-color: rgb(238, 238, 238);
     width: 600px;
-    
     height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     border-radius: 15px;
-
 }
 
 .plot_container{
@@ -154,6 +151,32 @@ input:checked + .radio_tile span {
     background-color: white;
     width: 550px;
     height: 260px;
+}
+
+.allpass_btn{
+    position: absolute;
+    top: 620px;
+    left: 675px;
+    background-color: rgb(202, 7, 7);
+    width: 10rem;
+    height: 3rem;
+    border: none;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    transition: ease 0.3s;
+}
+
+.allpass_btn:hover{
+    box-shadow: 0 0 8px rgb(229, 9, 9)
+}
+
+.allpass_btn:active{
+    top: 625px;
+    left: 680px;
+    width: 9.5rem;
+    height: 2.8rem;
 }
 
 /* //////// Third Column ///////// */

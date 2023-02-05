@@ -1,3 +1,5 @@
+// ------------------- First Column 
+
 // Custom Context Menu
 const contextMenu = document.querySelector(".wrapper");
 var delete_btn = document.getElementById("delete");
@@ -157,7 +159,7 @@ canvas.onmouseup = () => {
     if (move_phase){
         move_phase = false;
     }
-    convertToPolar(shapes);
+    // convertToPolar(shapes);
 };
 
 canvas.onmousemove = (event) => {
@@ -170,6 +172,7 @@ canvas.onmousemove = (event) => {
         current_shape.x += dx;
         current_shape.y += dy;
         drawShapes(shapes);
+        convertToPolar(shapes);
         startX = endX;
         startY = endY;
     }
@@ -237,6 +240,10 @@ function convertToPolar(shapes){
 
 // ----------------------------------------------------------
 
+// ------------------- Second Column 
+
+var allpass_btn = document.getElementById("allpass_btn");
+
 // Getting Mag and Phase Response from Back-End
 function getResponse () {
     $.ajax({
@@ -246,7 +253,6 @@ function getResponse () {
         data: JSON.stringify([poles, zeros]),
         dataType: 'json',
         success: function (data) {
-            console.log("Done");
             freq = data["freq"];
             mag_gain = data["mag"];
             phase_gain = data["phase"];
@@ -256,7 +262,6 @@ function getResponse () {
         }
     })
 };
-
 
 // Plotting Mag and Phase Response with plotly
 function drawResponse(div, freq, gain, graph_title, ylabel){
@@ -284,4 +289,17 @@ function drawResponse(div, freq, gain, graph_title, ylabel){
 
     Plotly.newPlot(div, data, layout);
 };
+
+// Setup The Initial Plot
+drawResponse("magnitude_response", [], [], "Frequency Response", "Amplitude [dB]");
+drawResponse("phase_response", [], [], "Phase Response", "Angle [radians]");
+
+
+allpass_btn.onclick = function () {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+};
+
+// ----------------------------------------------------------
+
+// ------------------- Third Column 
 
