@@ -142,14 +142,16 @@ input:checked + .radio_tile span {
 
 .plot_container{
     background-color: white;
+    transform: translateY(-42px);
     width: 550px;
     height: 250px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border-radius: 15px;
 }
 
 .response_plot{
+    background-color: white;
     width: 550px;
     height: 260px;
 }

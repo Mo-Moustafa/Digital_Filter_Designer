@@ -135,6 +135,7 @@ canvas.onclick= (event) => {
             drawPole(startX, startY);
             shapes.push({ x: startX, y: startY, type: "pole" });
         }
+        convertToPolar(shapes);
     }
 }
 
@@ -156,6 +157,7 @@ canvas.onmouseup = () => {
     if (move_phase){
         move_phase = false;
     }
+    convertToPolar(shapes);
 };
 
 canvas.onmousemove = (event) => {
@@ -193,6 +195,7 @@ canvas.addEventListener('contextmenu', function(e) {
     }
 });
 
+// Menu Buttons
 close_btn.onclick = () => {
     contextMenu.style.visibility = "hidden";
 };
@@ -201,11 +204,14 @@ delete_btn.onclick = () => {
     contextMenu.style.visibility = "hidden";
     shapes.splice(selected_shape, 1);
     drawShapes(shapes);
+    convertToPolar(shapes);
 };
 
+// Clear Button 
 clear_btn.onclick = function () {
     shapes = [];
     drawShapes(shapes);
+    convertToPolar(shapes);
 };
 
 
@@ -226,8 +232,56 @@ function convertToPolar(shapes){
             poles.push({real: x, img: y})
         }
     }
+    getResponse();
+};
+
+// ----------------------------------------------------------
+
+// Getting Mag and Phase Response from Back-End
+function getResponse () {
+    $.ajax({
+        contentType: "application/json;charset=utf-8",
+        url: 'http://127.0.0.1:5000/complex',
+        type: 'POST',
+        data: JSON.stringify([poles, zeros]),
+        dataType: 'json',
+        success: function (data) {
+            console.log("Done");
+            freq = data["freq"];
+            mag_gain = data["mag"];
+            phase_gain = data["phase"];
+
+            drawResponse("magnitude_response", freq, mag_gain, "Frequency Response", "Amplitude [dB]");
+            drawResponse("phase_response", freq, phase_gain, "Phase Response", "Angle [radians]");
+        }
+    })
 };
 
 
-// ----------------------------------------------------------
+// Plotting Mag and Phase Response with plotly
+function drawResponse(div, freq, gain, graph_title, ylabel){
+    
+    // Prepare The data
+    var response = {
+        x: freq,
+        y: gain,
+        type: "scatter",
+        mode: "lines"
+    };
+    
+    // Prepare the graph and plotting
+    var layout = {
+        width: 550,
+        height: 250,
+        margin: { t: 35, b:45, l:55, r:20 },
+
+        xaxis: {title: 'Frequency [Hz]'},
+        yaxis: {title: ylabel},
+        title: graph_title
+    };
+
+    var data = [response];
+
+    Plotly.newPlot(div, data, layout);
+};
 
