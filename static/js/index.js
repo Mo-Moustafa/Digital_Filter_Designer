@@ -322,7 +322,7 @@ function setUpPlot(div, time, amp, graph_title){
         height: 170,
         margin: { t: 25, b:35, l:40, r:5 },
 
-        xaxis: {title: 'Time [s]'},
+        xaxis: {title: 'Time [s]', range: [0,3]},
         yaxis: {title: "Amplitude"},
         title: graph_title
     };
@@ -357,13 +357,19 @@ var generate_phase = true;
 var input_y = 0;
 var t = 0;
 
-// Drawing on mousemove
+// Generating input on mousemove
 pad.onmousemove = (event) => {
     if (generate_phase) {
         input_y = parseInt(event.clientX - pad_rect.left - 200);
         Plotly.extendTraces("input_signal", { y: [[input_y]], x :[[t]] } ,[0]);
         t+=0.02
-    }
+
+        if ( t >= 3 ){
+            var update_range = {'xaxis.range': [t-2.5, t+0.5]};
+            Plotly.relayout("input_signal", update_range);
+            }
+        }
+
 };
 
 
@@ -374,8 +380,6 @@ generate_btn.onclick = () => {
     generate_phase = true;
     t = 0;
 };
-
-
 
 
 import_signal_btn.onclick = () => {
