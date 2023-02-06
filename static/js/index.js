@@ -365,17 +365,33 @@ var t = 0;
 pad.onmousemove = (event) => {
     if (generate_phase) {
         input_y = parseInt(event.clientX - pad_rect.left - 200);
-        Plotly.extendTraces("input_signal", { y: [[input_y]], x :[[t]] } ,[0]);
+        let filter_point = updateOutput(input_y);
+
+        Plotly.extendTraces("input_signal", { y: [[input_y]], x: [[t]] }, [0]);
+        Plotly.extendTraces("output_signal", { y: [[filter_point]], x: [[t]] }, [0]);
         t+=0.02
 
         if ( t >= 3 ){
             var update_range = {'xaxis.range': [t-2.5, t+0.5]};
             Plotly.relayout("input_signal", update_range);
+            Plotly.relayout("output_signal", update_range);
             }
         }
-
 };
 
+function updateOutput (y_point) {
+    $.ajax({
+        url: 'http://127.0.0.1:5000/generated',
+        type: 'POST',
+        data: {
+            'y_point': y_point
+        },
+        dataType: 'json',
+        success: function (response) {
+            return response["y_point"];
+        }
+    });
+};
 
 // Generate Button 
 generate_btn.onclick = () => {
@@ -386,8 +402,35 @@ generate_btn.onclick = () => {
 };
 
 
-import_signal_btn.onclick = () => {
+
+
+// Import Signal
+import_signal_btn.onclick = function () {
+
     setUpPlot("input_signal", [], [], "Input");
     setUpPlot("output_signal", [], [], "Output");
     generate_phase = false;
+
+    var form_data = new FormData($('#upload-csv')[0]);
+
+    $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:5000/csv",
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        async: true,
+        success: function (data) {
+            x_axis = data["x_axis"];
+            y_axis = data["y_axis"];
+            filterd_signal = data["filterd_signal"];
+
+            // plot input and output dynamically 
+            for (let i = 1 ; i < x_axis.length; i++){
+                Plotly.extendTraces("input_signal", { y: [[y_axis[i]]], x :[[x_axis[i]]] } ,[0]);
+                Plotly.extendTraces("output_signal", { y: [[filterd_signal[i]]], x :[[x_axis[i]]] } ,[0]);
+            }
+        }
+    });
 };

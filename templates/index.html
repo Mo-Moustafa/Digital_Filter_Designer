@@ -92,7 +92,10 @@
 
         <div class="signal_btn_container">
             <button class="signal_btn" id="generate_btn">Generate Signal</button>
-            <button class="signal_btn" id="import_signal_btn">Import Signal</button>
+            <!-- Upload Button -->
+            <form id="upload-csv" method="post" enctype="multipart/form-data">
+                <input  id="import_signal_btn" type="file" name="file" class="" />
+            </form>
         </div>
 
         <div class="generation_pad">

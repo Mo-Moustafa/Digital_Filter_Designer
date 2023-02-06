@@ -218,6 +218,10 @@ input:checked + .radio_tile span {
     width: 7.5rem;
 }
 
+#import_signal_btn{
+    width: 86.3px;
+}
+
 /* Generation Pad */
 #pad{
     transform: translateY(40px);
