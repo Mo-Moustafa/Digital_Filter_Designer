@@ -257,8 +257,12 @@ function getResponse () {
             mag_gain = data["mag"];
             phase_gain = data["phase"];
 
-            drawResponse("magnitude_response", freq, mag_gain, "Frequency Response", "Amplitude [dB]");
-            drawResponse("phase_response", freq, phase_gain, "Phase Response", "Angle [radians]");
+            var magnitude_update = {'x': [freq], 'y': [mag_gain]};
+            var phase_update = {'x': [freq], 'y': [phase_gain]};
+
+            Plotly.update("magnitude_response", magnitude_update);
+            Plotly.update("phase_response", phase_update);
+
         }
     })
 };
