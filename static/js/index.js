@@ -296,10 +296,90 @@ drawResponse("phase_response", [], [], "Phase Response", "Angle [radians]");
 
 
 allpass_btn.onclick = function () {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    console.log("waiting for code")
 };
 
 // ----------------------------------------------------------
 
 // ------------------- Third Column 
 
+// Buttons and setting up plot
+var generate_btn = document.getElementById("generate_btn");
+var import_signal_btn = document.getElementById("import_signal_btn");
+
+function setUpPlot(div, time, amp, graph_title){
+    // Prepare The data
+    var plot = {
+        x: time,
+        y: amp,
+        type: "scatter",
+        mode: "lines"
+    };
+    
+    // Prepare the graph and plotting
+    var layout = {
+        width: 400,
+        height: 170,
+        margin: { t: 25, b:35, l:40, r:5 },
+
+        xaxis: {title: 'Time [s]'},
+        yaxis: {title: "Amplitude"},
+        title: graph_title
+    };
+
+    var data = [plot];
+
+    Plotly.newPlot(div, data, layout);
+};
+
+// Initialize Signal plot
+setUpPlot("input_signal", [], [], "Input");
+setUpPlot("output_signal", [], [], "Output");
+
+
+// Generation Pad Initalization
+let pad = document.getElementById("pad");
+let ctx = pad.getContext("2d");
+pad.height = 150;
+pad.width = 400;
+const pad_rect = pad.getBoundingClientRect();
+
+// Setup the pad axis
+ctx.beginPath();
+ctx.moveTo(200, 0);
+ctx.strokeStyle = "white";
+ctx.lineTo(200, 200);
+ctx.lineWidth = 0.5;
+ctx.stroke();
+
+// Generate Signal
+var generate_phase = true;
+var input_y = 0;
+var t = 0;
+
+// Drawing on mousemove
+pad.onmousemove = (event) => {
+    if (generate_phase) {
+        input_y = parseInt(event.clientX - pad_rect.left - 200);
+        Plotly.extendTraces("input_signal", { y: [[input_y]], x :[[t]] } ,[0]);
+        t+=0.02
+    }
+};
+
+
+// Generate Button 
+generate_btn.onclick = () => {
+    setUpPlot("input_signal", [], [], "Input");
+    setUpPlot("output_signal", [], [], "Output");
+    generate_phase = true;
+    t = 0;
+};
+
+
+
+
+import_signal_btn.onclick = () => {
+    setUpPlot("input_signal", [], [], "Input");
+    setUpPlot("output_signal", [], [], "Output");
+    generate_phase = false;
+};
