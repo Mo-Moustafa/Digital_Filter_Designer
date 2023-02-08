@@ -434,7 +434,7 @@ document.getElementById("import_signal_btn").onchange = function () {
             console.log(x_axis)
 
             // plot input and output dynamically 
-            for (let i = 1; i < x_axis.length; i++) {
+            for (let i = 1; i < x_axis.length; i+=30) {
                 Plotly.extendTraces("input_signal", { y: [[y_axis[i]]], x: [[x_axis[i]]] }, [0]);
                 Plotly.extendTraces("output_signal", { y: [[filterd_signal[i]]], x: [[x_axis[i]]] }, [0]);
             }
