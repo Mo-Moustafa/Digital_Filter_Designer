@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +8,19 @@
 
     <!-- CSS and Fonts -->
     <link rel="stylesheet" href="all-pass.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="catalogue.css">
 
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- swiper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Plotly -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
@@ -16,14 +28,81 @@
 </head>
 
 <body>
-    
+
     <div class="all_pass_wrapper">
         <!-- Close Div Button -->
         <span class="material-symbols-outlined close_div_btn">cancel</span>
 
         <!-- Catalogue Slider -->
         <div class="catalogue">
+            <div class="container">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide swiper-slide-active">
+                            <img src="all-pass images/(a = 0.1).png" alt="">
+                            <div class="info">
+                                <h4 class="name">
+                                    a = 0.1
+                                </h4>
 
+                            </div>
+                        </div>
+                        <div class="swiper-slide swiper-slide-active">
+                            <img src="all-pass images/(a = 0.5).png" alt="">
+                            <div class="info">
+                                <h4 class="name">
+                                    a = 0.5
+                                </h4>
+
+                            </div>
+                        </div>
+                        <div class="swiper-slide swiper-slide-active">
+                            <img src="all-pass images/(a = -0.5).png" alt="">
+                            <div class="info">
+                                <h4 class="name">
+                                    a = -0.5
+                                </h4>
+
+                            </div>
+                        </div>
+                        <div class="swiper-slide swiper-slide-active">
+                            <img src="all-pass images/(a = 0.9).png" alt="">
+                            <div class="info">
+                                <h4 class="name">
+                                    a = 0.9
+                                </h4>
+
+                            </div>
+                        </div>
+                        <div class="swiper-slide swiper-slide-active">
+                            <img src="all-pass images/(a = -0.9).png" alt="">
+                            <div class="info">
+                                <h4 class="name">
+                                    a = -0.9
+                                </h4>
+
+                            </div>
+                        </div>
+                        <div class="swiper-slide swiper-slide-active">
+                            <img src="all-pass images/(a = 1+1j).png" alt="">
+                            <div class="info">
+                                <h4 class="name">
+                                    a = 1+1j
+                                </h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- If we need navigation buttons -->
+                </div>
+            </div>
+
+
+
+            <script src="all-pass.js"></script>
         </div>
 
         <!-- All-Pass Response -->
@@ -46,6 +125,8 @@
     </div>
 
 
+    <script src="all-pass.js"></script>
 
 </body>
+
 </html>

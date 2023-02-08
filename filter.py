@@ -87,7 +87,27 @@ def generated():
     output_signal = signal.lfilter(num, dem, input_signal).real
     output_point = output_signal[-1]
     return json.dumps({"y_point": output_point})
+allPassZeros=[]
+allPassPoles=[]
 
+
+# allpass page
+
+@app.route('/allPass', methods=['GET', 'POST'])
+def allpass():
+    allpass=[]
+    allpass = request.get_json()
+    for i in combined_zeros:
+        allPassZeros.append(i)
+    for i in allpass:
+        allPassZeros.append(1/np.conj(i))
+        allPassPoles.append(i)
+    for i in combined_poles:
+        allPassPoles.append(i)
+    freq, complex_gain = signal.freqz_zpk(allPassZeros, allPassPoles, 1)
+    Ap_phase = np.unwrap(np.angle(complex_gain))
+    
+    return jsonify({"Ap_phase": Ap_phase})
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)
