@@ -194,6 +194,7 @@ input:checked + .radio_tile span {
 .signal_btn_container{
     transform: translateY(20px);
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 
@@ -219,7 +220,11 @@ input:checked + .radio_tile span {
 }
 
 #import_signal_btn{
-    width: 86.3px;
+    width: 0px;
+}
+
+#import_signal_label{
+    padding: 15px;
 }
 
 /* Generation Pad */

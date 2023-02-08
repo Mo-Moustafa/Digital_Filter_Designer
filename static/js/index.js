@@ -365,10 +365,10 @@ var t = 0;
 pad.onmousemove = (event) => {
     if (generate_phase) {
         input_y = parseInt(event.clientX - pad_rect.left - 200);
-        let filter_point = updateOutput(input_y);
+        let filtered_point = updateOutput(input_y);
 
         Plotly.extendTraces("input_signal", { y: [[input_y]], x: [[t]] }, [0]);
-        Plotly.extendTraces("output_signal", { y: [[filter_point]], x: [[t]] }, [0]);
+        Plotly.extendTraces("output_signal", { y: [[filtered_point]], x: [[t]] }, [0]);
         t+=0.02
 
         if ( t >= 3 ){
@@ -383,14 +383,19 @@ function updateOutput (y_point) {
     $.ajax({
         url: 'http://127.0.0.1:5000/generated',
         type: 'POST',
-        data: {
-            'y_point': y_point
-        },
+        data: JSON.stringify({y_point}),
+        cache: false,
         dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        processData: false,
+
         success: function (response) {
-            return response["y_point"];
-        }
+            signal_output = response["y_point"];
+            console.log(signal_output);
+        },
     });
+    return signal_output;
 };
 
 // Generate Button 
@@ -400,8 +405,6 @@ generate_btn.onclick = () => {
     generate_phase = true;
     t = 0;
 };
-
-
 
 
 // Import Signal
@@ -434,3 +437,8 @@ import_signal_btn.onclick = function () {
         }
     });
 };
+
+
+// ----------------------------------------------------------
+
+// ------------------- All-Pass Filters
