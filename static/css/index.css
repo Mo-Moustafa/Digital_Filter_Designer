@@ -16,7 +16,6 @@ body {
     background-color: rgb(238, 238, 238);
     min-width: 410px;
     height: 95vh;
-
     border-radius: 15px;
 }
 
@@ -298,8 +297,3 @@ input:checked+.radio_tile span {
 }
 
 /*//////// ----------- /////////*/
-.pasBtn {
-
-    text-decoration: none;
-    color: white;
-}
