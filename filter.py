@@ -16,11 +16,6 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/allPass')
-def allPass():
-    return render_template('allPass.html')
-
-
 combined_poles = []
 combined_zeros = []
 input_signal = []

@@ -242,8 +242,6 @@ function convertToPolar(shapes) {
 
 // ------------------- Second Column 
 
-var allpass_btn = document.getElementById("allpass_btn");
-
 // Getting Mag and Phase Response from Back-End
 function getResponse() {
     $.ajax({
@@ -256,8 +254,6 @@ function getResponse() {
             freq = data["freq"];
             mag_gain = data["mag"];
             phase_gain = data["phase"];
-            console.log(freq);
-
 
             var magnitude_update = { 'x': [freq], 'y': [mag_gain] };
             var phase_update = { 'x': [freq], 'y': [phase_gain] };
@@ -299,11 +295,6 @@ function drawResponse(div, freq, gain, graph_title, ylabel) {
 // Setup The Initial Plot
 drawResponse("magnitude_response", [], [], "Frequency Response", "Amplitude [dB]");
 drawResponse("phase_response", [], [], "Phase Response", "Angle [radians]");
-
-
-allpass_btn.onclick = function () {
-    console.log("waiting for code")
-};
 
 // ----------------------------------------------------------
 
@@ -394,7 +385,6 @@ function updateOutput(y_point) {
 
         success: function (response) {
             signal_output = response["y_point"];
-            console.log(signal_output);
         },
     });
     return signal_output;
@@ -410,7 +400,7 @@ generate_btn.onclick = () => {
 
 
 // Import Signal
-document.getElementById("import_signal_btn").onchange = function () {
+import_signal_btn.onchange = function () {
 
     setUpPlot("input_signal", [], [], "Input");
     setUpPlot("output_signal", [], [], "Output");
@@ -429,9 +419,7 @@ document.getElementById("import_signal_btn").onchange = function () {
         success: function (data) {
             x_axis = data["x_axis"];
             y_axis = data["y_axis"];
-
             filterd_signal = data["filterd_signal"];
-            console.log(x_axis)
 
             // plot input and output dynamically 
             for (let i = 1; i < x_axis.length; i+=30) {
@@ -446,3 +434,9 @@ document.getElementById("import_signal_btn").onchange = function () {
 // ----------------------------------------------------------
 
 // ------------------- All-Pass Filters
+
+var allpass_btn = document.getElementById("allpass_btn");
+
+allpass_btn.onclick = function () {
+    console.log("waiting for code")
+};
