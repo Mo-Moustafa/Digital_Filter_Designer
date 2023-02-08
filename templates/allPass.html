@@ -22,6 +22,11 @@
 
 <body>
     <!--  Custom Context Menu -->
+
+    <div class="signal">
+        <div class="plot_container">
+            <div id="phase_response" class="response_plot"></div>
+        </div>
     <div class="wrapper">
         <div class="content">
             <ul class="menu">
@@ -39,59 +44,10 @@
         </div>
     </div>
 
-<!-- First Column -->
-    <div class="z-plane">
-        
-        <div class="graph">
-            <canvas id="canvas" class="canvas"></canvas>
-        </div>
 
 
-        <div class="graph_buttons">
-
-            <div class="input_container">
-                <input type="radio" name="filter_btn" id="zero" value="zero" checked>
-                <div class="radio_tile">
-                    <span class="material-symbols-outlined">exposure_zero</span>
-                    <label for="zero">Zero</label>
-                </div>
-            </div>
-
-            <div class="input_container">
-                <input type="radio" name="filter_btn" id="pole" value="pole">
-                <div class="radio_tile">
-                    <span class="material-symbols-outlined">close</span>
-                    <label for="pole">Pole</label>
-                </div>
-            </div>
-
-            <div class="clear">
-                <button class="clear_btn" id="clear_btn">Clear All</button>
-            </div>
-        </div>
-
-    </div>
-
-<!-- Second Column -->
-    <div class="response">        
-        <div class="plot_container">
-            <div id="magnitude_response" class="response_plot"></div>
-        </div>
-
-        <div class="plot_container">
-            <div id="phase_response" class="response_plot"></div>
-        </div>
-
-        <div class="allpass">
-            <button class="allpass_btn" id="allpass_btn" ><a class='pasBtn' href="{{url_for("allPass")}}">All-Pass Filtersss</a>
-
-          
-                </button>
-        </div>
-    </div>
 
 <!-- Third Column -->
-    <div class="signal">
 
         <div class="signal_btn_container">
             <button class="signal_btn" id="generate_btn">Generate Signal</button>
@@ -103,9 +59,7 @@
             </form>
         </div>
 
-        <div class="generation_pad">
-            <canvas id="pad" class="pad"></canvas>
-        </div>
+
 
         <div class="signal_container">
             <div id="input_signal" class="signal_plot"></div>

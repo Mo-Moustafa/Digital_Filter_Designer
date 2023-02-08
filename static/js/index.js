@@ -13,7 +13,7 @@ canvas.width = 360;
 const rect = canvas.getBoundingClientRect();
 
 // Drawing the unit circle and axis
-function setUpCanvas(){
+function setUpCanvas() {
     context.beginPath();
     context.arc(180, 180, 160, 0, 2 * Math.PI, false);
     context.lineWidth = 1;
@@ -62,7 +62,7 @@ var draw_phase = false;
 var move_phase = false;
 
 // Drawing Shapes
-function drawZero(x , y){
+function drawZero(x, y) {
     context.beginPath();
     context.arc(x, y, 6, 0, 2 * Math.PI, false);
     context.lineWidth = 1;
@@ -73,18 +73,18 @@ function drawZero(x , y){
     context.stroke();
 };
 
-function drawPole(x , y){
-        context.beginPath();
-        context.lineWidth = 2.5;
-        context.strokeStyle = "red";
+function drawPole(x, y) {
+    context.beginPath();
+    context.lineWidth = 2.5;
+    context.strokeStyle = "red";
 
-        context.moveTo(x - 6, y - 6);
-        context.lineTo(x + 6, y + 6);
+    context.moveTo(x - 6, y - 6);
+    context.lineTo(x + 6, y + 6);
 
-        context.moveTo(x + 6, y - 6);
-        context.lineTo(x - 6, y + 6);
-        
-        context.stroke();
+    context.moveTo(x + 6, y - 6);
+    context.lineTo(x - 6, y + 6);
+
+    context.stroke();
 };
 
 // Moving Shapes
@@ -100,22 +100,22 @@ function is_mouse_in_shape(shape) {
     return false;
 };
 
-function drawShapes(shapes){
+function drawShapes(shapes) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     setUpCanvas();
 
     for (let shape of shapes) {
-        if (shape.type == "zero"){
-            drawZero(shape.x , shape.y);
+        if (shape.type == "zero") {
+            drawZero(shape.x, shape.y);
         }
         else {
-            drawPole(shape.x , shape.y);
+            drawPole(shape.x, shape.y);
         }
     }
 };
 
 // Mouse Events
-canvas.onclick= (event) => {
+canvas.onclick = (event) => {
     contextMenu.style.visibility = "hidden";
     draw_phase = true;
     startX = parseInt(event.clientX - rect.left);
@@ -123,17 +123,17 @@ canvas.onclick= (event) => {
 
     for (let shape of shapes) {
         if (is_mouse_in_shape(shape)) {
-        draw_phase = false;
+            draw_phase = false;
         }
     }
 
     if (draw_phase) {
         draw_phase = false;
-        if (draw_shape == "zero"){
+        if (draw_shape == "zero") {
             drawZero(startX, startY);
-            shapes.push({ x: startX, y: startY, type: "zero" }); 
+            shapes.push({ x: startX, y: startY, type: "zero" });
         }
-        else{
+        else {
             drawPole(startX, startY);
             shapes.push({ x: startX, y: startY, type: "pole" });
         }
@@ -147,8 +147,8 @@ canvas.onmousedown = (event) => {
     let index = 0;
     for (let shape of shapes) {
         if (is_mouse_in_shape(shape)) {
-        selected_shape = index;
-        move_phase = true;
+            selected_shape = index;
+            move_phase = true;
         }
         index++;
     }
@@ -156,7 +156,7 @@ canvas.onmousedown = (event) => {
 };
 
 canvas.onmouseup = () => {
-    if (move_phase){
+    if (move_phase) {
         move_phase = false;
     }
     // convertToPolar(shapes);
@@ -179,19 +179,19 @@ canvas.onmousemove = (event) => {
 };
 
 // Delete Elements
-canvas.addEventListener('contextmenu', function(e) {
+canvas.addEventListener('contextmenu', function (e) {
     e.preventDefault();
     startX = e.offsetX, startY = e.offsetY;
     let menu = false
     let index = 0;
     for (let shape of shapes) {
         if (is_mouse_in_shape(shape)) {
-        selected_shape = index;
-        menu = true;
+            selected_shape = index;
+            menu = true;
         }
         index++;
     }
-    if (menu){
+    if (menu) {
         contextMenu.style.left = `${startX}px`;
         contextMenu.style.top = `${startY + 130}px`;
         contextMenu.style.visibility = "visible";
@@ -219,7 +219,7 @@ clear_btn.onclick = function () {
 
 
 // Converting to polar coordinates
-function convertToPolar(shapes){
+function convertToPolar(shapes) {
     zeros = []
     poles = []
     let x = 0;
@@ -228,11 +228,11 @@ function convertToPolar(shapes){
         x = (shape.x - 180) / 160
         y = - (shape.y - 180) / 160;
 
-        if (shape.type == "zero"){
-            zeros.push({real: x, img: y})
+        if (shape.type == "zero") {
+            zeros.push({ real: x, img: y })
         }
-        else{
-            poles.push({real: x, img: y})
+        else {
+            poles.push({ real: x, img: y })
         }
     }
     getResponse();
@@ -245,7 +245,7 @@ function convertToPolar(shapes){
 var allpass_btn = document.getElementById("allpass_btn");
 
 // Getting Mag and Phase Response from Back-End
-function getResponse () {
+function getResponse() {
     $.ajax({
         contentType: "application/json;charset=utf-8",
         url: 'http://127.0.0.1:5000/complex',
@@ -256,9 +256,11 @@ function getResponse () {
             freq = data["freq"];
             mag_gain = data["mag"];
             phase_gain = data["phase"];
+            console.log(freq);
 
-            var magnitude_update = {'x': [freq], 'y': [mag_gain]};
-            var phase_update = {'x': [freq], 'y': [phase_gain]};
+
+            var magnitude_update = { 'x': [freq], 'y': [mag_gain] };
+            var phase_update = { 'x': [freq], 'y': [phase_gain] };
 
             Plotly.update("magnitude_response", magnitude_update);
             Plotly.update("phase_response", phase_update);
@@ -268,8 +270,8 @@ function getResponse () {
 };
 
 // Plotting Mag and Phase Response with plotly
-function drawResponse(div, freq, gain, graph_title, ylabel){
-    
+function drawResponse(div, freq, gain, graph_title, ylabel) {
+
     // Prepare The data
     var response = {
         x: freq,
@@ -277,15 +279,15 @@ function drawResponse(div, freq, gain, graph_title, ylabel){
         type: "scatter",
         mode: "lines"
     };
-    
+
     // Prepare the graph and plotting
     var layout = {
         width: 550,
         height: 250,
-        margin: { t: 35, b:45, l:55, r:20 },
+        margin: { t: 35, b: 45, l: 55, r: 20 },
 
-        xaxis: {title: 'Frequency [Hz]'},
-        yaxis: {title: ylabel},
+        xaxis: { title: 'Frequency [Hz]' },
+        yaxis: { title: ylabel },
         title: graph_title
     };
 
@@ -311,7 +313,7 @@ allpass_btn.onclick = function () {
 var generate_btn = document.getElementById("generate_btn");
 var import_signal_btn = document.getElementById("import_signal_btn");
 
-function setUpPlot(div, time, amp, graph_title){
+function setUpPlot(div, time, amp, graph_title) {
     // Prepare The data
     var plot = {
         x: time,
@@ -319,15 +321,15 @@ function setUpPlot(div, time, amp, graph_title){
         type: "scatter",
         mode: "lines"
     };
-    
+
     // Prepare the graph and plotting
     var layout = {
         width: 400,
         height: 170,
-        margin: { t: 25, b:35, l:40, r:5 },
+        margin: { t: 25, b: 35, l: 40, r: 5 },
 
-        xaxis: {title: 'Time [s]', range: [0,3]},
-        yaxis: {title: "Amplitude"},
+        xaxis: { title: 'Time [s]', range: [0, 3] },
+        yaxis: { title: "Amplitude" },
         title: graph_title
     };
 
@@ -369,21 +371,21 @@ pad.onmousemove = (event) => {
 
         Plotly.extendTraces("input_signal", { y: [[input_y]], x: [[t]] }, [0]);
         Plotly.extendTraces("output_signal", { y: [[filtered_point]], x: [[t]] }, [0]);
-        t+=0.02
+        t += 0.02
 
-        if ( t >= 3 ){
-            var update_range = {'xaxis.range': [t-2.5, t+0.5]};
+        if (t >= 3) {
+            var update_range = { 'xaxis.range': [t - 2.5, t + 0.5] };
             Plotly.relayout("input_signal", update_range);
             Plotly.relayout("output_signal", update_range);
-            }
         }
+    }
 };
 
-function updateOutput (y_point) {
+function updateOutput(y_point) {
     $.ajax({
         url: 'http://127.0.0.1:5000/generated',
         type: 'POST',
-        data: JSON.stringify({y_point}),
+        data: JSON.stringify({ y_point }),
         cache: false,
         dataType: 'json',
         async: false,
@@ -408,7 +410,7 @@ generate_btn.onclick = () => {
 
 
 // Import Signal
-import_signal_btn.onclick = function () {
+document.getElementById("import_signal_btn").onchange = function () {
 
     setUpPlot("input_signal", [], [], "Input");
     setUpPlot("output_signal", [], [], "Output");
@@ -427,12 +429,14 @@ import_signal_btn.onclick = function () {
         success: function (data) {
             x_axis = data["x_axis"];
             y_axis = data["y_axis"];
+
             filterd_signal = data["filterd_signal"];
+            console.log(x_axis)
 
             // plot input and output dynamically 
-            for (let i = 1 ; i < x_axis.length; i++){
-                Plotly.extendTraces("input_signal", { y: [[y_axis[i]]], x :[[x_axis[i]]] } ,[0]);
-                Plotly.extendTraces("output_signal", { y: [[filterd_signal[i]]], x :[[x_axis[i]]] } ,[0]);
+            for (let i = 1; i < x_axis.length; i++) {
+                Plotly.extendTraces("input_signal", { y: [[y_axis[i]]], x: [[x_axis[i]]] }, [0]);
+                Plotly.extendTraces("output_signal", { y: [[filterd_signal[i]]], x: [[x_axis[i]]] }, [0]);
             }
         }
     });

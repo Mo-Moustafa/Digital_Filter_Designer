@@ -12,7 +12,7 @@ body {
 
 /*//////// First Column /////////*/
 /* Z-Plane Canvas */
-.z-plane{
+.z-plane {
     background-color: rgb(238, 238, 238);
     min-width: 410px;
     height: 95vh;
@@ -20,7 +20,7 @@ body {
     border-radius: 15px;
 }
 
-#canvas{
+#canvas {
     transform: translateY(100px);
     margin-left: 25px;
     background: white;
@@ -29,7 +29,7 @@ body {
 
 
 /* Zeros and poles buttons */
-.graph_buttons{
+.graph_buttons {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +37,7 @@ body {
     height: 300px;
 }
 
-.input_container{
+.input_container {
     position: relative;
     height: 3rem;
     width: 6rem;
@@ -80,25 +80,25 @@ body {
     margin-top: 1px;
 }
 
-input:checked + .radio_tile {
+input:checked+.radio_tile {
     background-color: rgba(39, 71, 131, 0.854);
     box-shadow: 0 0 8px rgba(39, 71, 131, 0.854);
 }
 
-input:hover + .radio_tile {
+input:hover+.radio_tile {
     box-shadow: 0 0 8px rgba(39, 71, 131, 0.854);
 }
 
-input:checked + .radio_tile label,
-input:checked + .radio_tile span {
+input:checked+.radio_tile label,
+input:checked+.radio_tile span {
     color: white;
 }
 
-.clear{
+.clear {
     margin-left: 10px;
 }
 
-.clear button{
+.clear button {
     background-color: rgb(202, 7, 7);
     width: 5rem;
     height: 3rem;
@@ -109,14 +109,15 @@ input:checked + .radio_tile span {
     transition: ease 0.3s;
 }
 
-.clear_btn:hover{
+.clear_btn:hover {
     box-shadow: 0 0 8px rgb(229, 9, 9)
 }
 
-.clear_btn:active{
+.clear_btn:active {
     width: 4.5rem;
     height: 2.8rem;
 }
+
 /*//////// ----------- /////////*/
 
 
@@ -126,7 +127,7 @@ input:checked + .radio_tile span {
 
 /*//////// Second Column /////////*/
 
-.response{
+.response {
     background-color: rgb(238, 238, 238);
     width: 600px;
     height: 95vh;
@@ -137,7 +138,7 @@ input:checked + .radio_tile span {
     border-radius: 15px;
 }
 
-.plot_container{
+.plot_container {
     background-color: white;
     transform: translateY(-42px);
     width: 550px;
@@ -147,13 +148,13 @@ input:checked + .radio_tile span {
     border-radius: 15px;
 }
 
-.response_plot{
+.response_plot {
     background-color: white;
     width: 550px;
     height: 260px;
 }
 
-.allpass_btn{
+.allpass_btn {
     position: absolute;
     top: 620px;
     left: 675px;
@@ -168,11 +169,11 @@ input:checked + .radio_tile span {
     transition: ease 0.3s;
 }
 
-.allpass_btn:hover{
+.allpass_btn:hover {
     box-shadow: 0 0 12px rgb(33, 34, 37);
 }
 
-.allpass_btn:active{
+.allpass_btn:active {
     top: 625px;
     left: 680px;
     width: 9.5rem;
@@ -180,7 +181,7 @@ input:checked + .radio_tile span {
 }
 
 /* //////// Third Column ///////// */
-.signal{
+.signal {
     background-color: rgb(238, 238, 238);
     min-width: 460px;
     height: 95vh;
@@ -191,14 +192,14 @@ input:checked + .radio_tile span {
 }
 
 /* Buttons */
-.signal_btn_container{
+.signal_btn_container {
     transform: translateY(20px);
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.signal_btn{
+.signal_btn {
     background-color: rgb(33, 34, 37);
     width: 8rem;
     height: 3rem;
@@ -210,33 +211,33 @@ input:checked + .radio_tile span {
     transition: ease 0.3s;
 }
 
-.signal_btn:hover{
+.signal_btn:hover {
     box-shadow: 0 0 10px rgb(68, 59, 59);
 }
 
-.signal_btn:active{
+.signal_btn:active {
     margin-left: 5px;
     width: 7.5rem;
 }
 
-#import_signal_btn{
+#import_signal_btn {
     width: 0px;
 }
 
-#import_signal_label{
+#import_signal_label {
     padding: 15px;
 }
 
 /* Generation Pad */
-#pad{
+#pad {
     transform: translateY(40px);
     background: rgb(33, 34, 37);
-    cursor:crosshair;
+    cursor: crosshair;
     border-radius: 10px;
 }
 
 /* Graphs */
-.signal_container{
+.signal_container {
     background-color: white;
     transform: translateY(60px);
     width: 400px;
@@ -246,7 +247,7 @@ input:checked + .radio_tile span {
     border-radius: 15px;
 }
 
-.signal_plot{
+.signal_plot {
     background-color: white;
     width: 400px;
     height: 170px;
@@ -254,23 +255,23 @@ input:checked + .radio_tile span {
 
 
 /*//////// Custom Context Menu /////////*/
-.wrapper{
+.wrapper {
     position: absolute;
     visibility: hidden;
     width: 115px;
     height: 90px;
     background-color: rgba(33, 33, 33, 0.95);
     border-radius: 10px;
-    box-shadow: 0 12 35px rgba(0,0,0,0.1);
+    box-shadow: 0 12 35px rgba(0, 0, 0, 0.1);
     z-index: 2;
 }
 
-.wrapper .menu{
+.wrapper .menu {
     padding: 0px 5px;
     transform: translateY(-7px);
 }
 
-.content .item{
+.content .item {
     color: white;
     list-style: none;
     font-size: 22px;
@@ -283,7 +284,7 @@ input:checked + .radio_tile span {
     cursor: pointer;
 }
 
-.content .item span{
+.content .item span {
     font-size: 14px;
 }
 
@@ -292,7 +293,13 @@ input:checked + .radio_tile span {
     margin-left: 6px;
 }
 
-.content .item:hover{
+.content .item:hover {
     background-color: rgba(0, 0, 0, 0.95);
 }
+
 /*//////// ----------- /////////*/
+.pasBtn {
+
+    text-decoration: none;
+    color: white;
+}

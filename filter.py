@@ -6,11 +6,19 @@ import json
 from scipy import signal
 import os
 import pandas as pd
+from flask import redirect, url_for
 
 app = Flask(__name__)
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/allPass')
+def allPass():
+    return render_template('allPass.html')
 
 
 combined_poles = []
@@ -21,8 +29,10 @@ input_signal = []
 @app.route('/complex', methods=['GET', 'POST'])
 def complex():
     data = request.get_json()
+
     combined_poles.clear()
     combined_zeros.clear()
+
 #   appending zeros and poles
     for item in data[0]:
         real_poles = item["real"]
@@ -33,6 +43,8 @@ def complex():
         img_zeros = item["img"]
         combined_zeros.append((real_zeros+img_zeros*1j))
 #   getting  filter response
+    print("combied zeros", combined_zeros)
+    print("combied poles", combined_poles)
     freq, complex_gain = signal.freqz_zpk(combined_zeros, combined_poles, 1)
     mag_gain = 20 * np.log10(abs(complex_gain))
     phase_gain = np.unwrap(np.angle(complex_gain))
@@ -51,13 +63,15 @@ def csv():
     y_axis = y_axis.to_numpy()
 
     filter_order = max(len(combined_poles), len(combined_zeros))
+    print(filter_order)
     #   To save calculations
     if (filter_order < 1):
-        return json.dumps({"x_axis": x_axis.tolist(), "y_axis": y_axis.tolist(), "filterd_signal": y_axis.tolist()})
-        
+        return jsonify({"x_axis": x_axis.tolist(), "y_axis": y_axis.tolist(), "filterd_signal": y_axis.tolist()})
+
     num, dem = signal.zpk2tf(combined_zeros, combined_poles, 1)
-    filterd_signal = signal.filtfilt(num, dem, y_axis)
-    return json.dumps({"x_axis": x_axis.tolist(), "y_axis": y_axis.tolist(), "filterd_signal": filterd_signal.tolist()})
+    filterd_signal = signal.lfilter(num, dem, y_axis).real
+    print(type(x_axis.tolist()))
+    return jsonify({"x_axis": x_axis.tolist(), "y_axis": y_axis.tolist(), "filterd_signal": filterd_signal.tolist()})
 
 
 @app.route('/generated', methods=['GET', 'POST'])
@@ -71,14 +85,13 @@ def generated():
     if (filter_order < 1):
         return json.dumps({"y_point": input_point})
 #   Cut the signal to save memory
-    if len(input_signal) >  2 * filter_order and len(input_signal)>50:
+    if len(input_signal) > 2 * filter_order and len(input_signal) > 50:
         del input_signal[0:filter_order]
 
     num, dem = signal.zpk2tf(combined_zeros, combined_poles, 1)
-    output_signal = signal.lfilter(num, dem , input_signal).real
-    output_point = output_signal[-1]    
+    output_signal = signal.lfilter(num, dem, input_signal).real
+    output_point = output_signal[-1]
     return json.dumps({"y_point": output_point})
-
 
 
 if __name__ == '__main__':
