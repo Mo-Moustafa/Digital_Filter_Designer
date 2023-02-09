@@ -297,3 +297,241 @@ input:checked+.radio_tile span {
 }
 
 /*//////// ----------- /////////*/
+/* All Pass Filter Page */
+.all_pass_wrapper {
+    position: absolute;
+    transition: 0.4s ease;
+    scale: 0;
+    
+    background-color: rgb(238, 238, 238);
+    width: 1500px;
+    height: 95vh;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+/* ---------- Upper Half ---------- */
+
+/* Page Close Button */
+.close_div_btn {
+    position: absolute;
+    left: 1450px;
+    top: 20px;
+
+    /* left: 1470px;
+    top: 35px; */
+}
+
+.all_pass_wrapper span {
+    font-size: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.all_pass_wrapper span:hover {
+    color: rgb(202, 7, 7);
+}
+
+/* Catalogue */
+.catalogue {
+    background-color: rgb(47, 47, 47);
+    width: 1420px;
+    /* height: 30vh; */
+    height: 25vh;
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    /* margin-top: 40px;
+    margin-bottom: 10px; */
+    margin-right: 45px;
+}
+
+/* ---------- Bottom Half ---------- */
+
+.all_pass_response {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    height: 58vh;
+    width: 1465px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* First Column */
+.all_pass_cumulative {
+    background-color: rgb(47, 47, 47);
+    width: 600px;
+    height: 58vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Input Header and button */
+.all_pass_cumulative h3{
+    color: white;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    /* font-size: 30px; */
+}
+
+.input_a_value{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.a_input{
+    width: 120px;
+    height: 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px;
+}
+.a_input:focus {
+    border: 3px solid rgb(202, 7, 7);
+    height: 5px;
+    width: 115px;
+    border-radius: 5px;
+}
+
+.add_filter_btn{
+    background-color: rgb(202, 7, 7);
+    width: 5rem;
+    height: 31px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: ease 0.3s;
+}
+.add_filter_btn:hover {
+    box-shadow: 0 0 8px rgb(229, 9, 9)
+}
+.add_filter_btn:active {
+    scale: 0.9;
+}
+
+.plot2_container{
+    background-color: white;
+    width: 500px;
+    height: 255px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.cumulative_apf_graph{
+    background-color: white;
+    width: 500px;
+    height: 255px;
+}
+
+
+/* Second Column */
+.original_response {
+    background-color: rgb(47, 47, 47);
+    width: 600px;
+    height: 58vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* header and Button */
+
+.original_response h3{
+    color: white;
+    margin-top: 27px;
+    margin-bottom: 15px;
+}
+
+.apply_filter_btn{
+    background-color: rgb(202, 7, 7);
+    width: 8rem;
+    height: 2.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: ease 0.3s;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.apply_filter_btn:hover {
+    box-shadow: 0 0 8px rgb(229, 9, 9)
+}
+.apply_filter_btn:active {
+    scale: 0.92;
+}
+
+
+/* Third Column */
+.filters_history {
+    background-color: rgb(47, 47, 47);
+    width: 300px;
+    height: 58vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filters_history h3{
+    color: white;
+    margin-bottom: 10px;
+}
+
+.added_content{
+    width: 93%;
+    height: 357px;
+    background-color: rgb(65, 65, 65);
+    border-radius: 10px;
+    overflow-y:scroll;
+}
+
+.added_content::-webkit-scrollbar{
+    width: 0px;
+}
+
+.filter{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgb(233, 233, 233);
+    border-radius: 5px;
+    box-shadow: 0px 4px 15px 0px black;
+    height: 45px;
+    margin-bottom: 5px;
+
+    cursor:default;
+}
+
+.filter p{
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 30px;
+}
+
+.filter span{
+    position: absolute;
+    font-size: 28px;
+    right: 20px;
+}
+
+.filter span:active{
+    scale: 0.9;
+}

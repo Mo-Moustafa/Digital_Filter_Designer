@@ -16,10 +16,6 @@
 </head>
 
 
-
-
-
-
 <body>
     <!--  Custom Context Menu -->
     <div class="wrapper">
@@ -115,6 +111,45 @@
     </div>
 
 
+    <!-- All Pass Filter Page -->
+    <div class="all_pass_wrapper" id="all_pass_wrapper">
+        <!-- Close Div Button -->
+        <span class="material-symbols-outlined close_div_btn" id="all_pass_close">cancel</span>
+        <!-- Catalogue Slider -->
+        <div class="catalogue">
+
+        </div>
+        <!-- All-Pass Response -->
+        <div class="all_pass_response">
+
+            <div class="all_pass_cumulative">
+                <h3>Put the a value</h3>
+                <div class="input_a_value">
+                    <input type="text" name="" id="a_value" class="a_input">
+                    <button class="add_filter_btn" id="add_filter_btn">Add Filter</button>
+                </div>
+                <div class="plot2_container">
+                    <div id="cumulative_apf_graph" class="cumulative_apf_graph"></div>
+                </div>
+            </div>
+
+            <div class="original_response">
+                <h3>Final Phase Gain</h3>
+                <button class="apply_filter_btn" id="apply_filter_btn">Apply Filter</button>
+                <div class="plot2_container">
+                    <div id="current_apf_graph" class="current_apf_graph"></div>
+                </div>
+            </div>
+
+            <div class="filters_history">
+                <h3>Added Filters</h3>
+                <div class="added_content" id="added_content">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
     <script src="../static/js/index.js"></script>

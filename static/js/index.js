@@ -435,8 +435,126 @@ import_signal_btn.onchange = function () {
 
 // ------------------- All-Pass Filters
 
+// Open and close the page
 var allpass_btn = document.getElementById("allpass_btn");
+var all_pass_wrapper = document.getElementById("all_pass_wrapper");
+var all_pass_close = document.getElementById("all_pass_close");
 
 allpass_btn.onclick = function () {
-    console.log("waiting for code")
+    all_pass_wrapper.style.scale = "1";  
 };
+all_pass_close.onclick = function () {
+    all_pass_wrapper.style.scale = "0";  
+};
+
+// Initailize the response
+function drawAPFResponse(div, freq, gain) {
+    // Prepare The data
+    var response = {
+        x: freq,
+        y: gain,
+        type: "scatter",
+        mode: "lines"
+    };
+
+    // Prepare the graph and plotting
+    var layout = {
+        width: 500,
+        height: 255,
+        margin: { t: 25, b: 35, l: 40, r: 10 },
+
+        xaxis: { title: 'Frequency [Hz]' },
+        yaxis: { title: "Angle [radians]" },
+    };
+
+    var data = [response];
+
+    Plotly.newPlot(div, data, layout);
+};
+
+drawAPFResponse("current_apf_graph", [], []);
+drawAPFResponse("cumulative_apf_graph", [], []);
+
+
+
+// Get A value from input data
+let input_text = document.querySelector(".input_a_value input");
+var add_filter_btn = document.getElementById("add_filter_btn");
+var apf_filters_container = document.getElementById("added_content");
+
+// List that contains all filters to be sent to the back-end
+let apf_list = []
+
+// To check if filter was already used
+function checkList (a) {
+    for (let i = 0; i < apf_list.length; i++){
+        if (a == apf_list[i]){
+            return true;
+        }
+    }
+    return false;
+};
+
+// Add filter to the content menu
+function addFilterInMenu(a) {
+
+    // Filter div
+    let filter_div = document.createElement("div");
+    filter_div.className = "filter";
+
+    // The input data
+    let filter_text = document.createElement("p");
+    let text = document.createTextNode("a = " + a);
+    filter_text.appendChild(text);
+
+    // Delete Button
+    let del_btn = document.createElement("span");
+    let del_text = document.createTextNode("delete");
+    del_btn.appendChild(del_text);
+    del_btn.className = "material-symbols-outlined";
+    del_btn.classList.add("del-filter");
+    // Important to be able to delete filter from the list
+    del_btn.id = a;
+
+    // Finish the div then append it
+    filter_div.appendChild(filter_text);
+    filter_div.appendChild(del_btn);
+    apf_filters_container.appendChild(filter_div);    
+};
+
+// Add Filter Button
+add_filter_btn.onclick = function () {
+    // to remove white spaces
+    var input_a = input_text.value.replace(/\s/g, "");
+    // if input is empty or already used
+    if (input_a === '' || checkList(input_a)){
+        input_text.value = "";
+        input_text.focus();
+        return;
+    }
+
+    // Push filter to the list
+    apf_list.push(input_a);
+    // Add filter to the menu
+    addFilterInMenu(input_a);
+
+    input_text.value = "";
+    input_text.focus();
+};
+
+// Delete Filter
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains("del-filter")) {
+        
+        // Remove it from filters list
+        let index = 0;
+        for (let i = 0; i < apf_list.length; i++){
+            if (e.target.id == apf_list[i]){
+                index = i;
+            }
+        }
+        apf_list.splice(index, 1);
+        // remove it from history
+        e.target.parentNode.remove();
+    }
+});
