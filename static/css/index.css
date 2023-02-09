@@ -1,5 +1,6 @@
 body {
-    background: rgba(19, 33, 57, 0.854);
+    background: linear-gradient(90deg, rgba(24,41,50,1) 0%, rgba(18,82,119,1) 48%, rgba(24,41,50,1) 100%);
+
     padding: 10px 0;
     display: flex;
     flex-direction: row;
@@ -59,19 +60,19 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100%;
-    border: 2px solid rgba(39, 71, 131, 0.854);
+    border: 2px solid rgb(33, 34, 37);
     border-radius: 8px;
     transition: all 0.3s ease;
 }
 
 .input_container .radio_tile span {
-    color: rgba(39, 71, 131, 0.854);
+    color: rgb(33, 34, 37);
     font-size: 1.5rem;
     margin-top: 3px;
 }
 
 .input_container .radio_tile label {
-    color: rgba(39, 71, 131, 0.854);
+    color: rgb(33, 34, 37);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -80,12 +81,12 @@ body {
 }
 
 input:checked+.radio_tile {
-    background-color: rgba(39, 71, 131, 0.854);
-    box-shadow: 0 0 8px rgba(39, 71, 131, 0.854);
+    background-color: rgb(33, 34, 37);
+    box-shadow: 0 0 8px rgb(33, 34, 37);
 }
 
 input:hover+.radio_tile {
-    box-shadow: 0 0 8px rgba(39, 71, 131, 0.854);
+    box-shadow: 0 0 8px rgb(33, 34, 37);
 }
 
 input:checked+.radio_tile label,
@@ -113,8 +114,7 @@ input:checked+.radio_tile span {
 }
 
 .clear_btn:active {
-    width: 4.5rem;
-    height: 2.8rem;
+    scale: 0.94;
 }
 
 /*//////// ----------- /////////*/
@@ -173,10 +173,7 @@ input:checked+.radio_tile span {
 }
 
 .allpass_btn:active {
-    top: 625px;
-    left: 680px;
-    width: 9.5rem;
-    height: 2.8rem;
+    scale: 0.9;
 }
 
 /* //////// Third Column ///////// */
@@ -215,8 +212,7 @@ input:checked+.radio_tile span {
 }
 
 .signal_btn:active {
-    margin-left: 5px;
-    width: 7.5rem;
+    scale: 0.95;
 }
 
 #import_signal_btn {
@@ -323,6 +319,10 @@ input:checked+.radio_tile span {
 
     /* left: 1470px;
     top: 35px; */
+}
+
+.close_div_btn:active{
+    scale: 0.8;
 }
 
 .all_pass_wrapper span {
@@ -516,7 +516,6 @@ input:checked+.radio_tile span {
     box-shadow: 0px 4px 15px 0px black;
     height: 45px;
     margin-bottom: 5px;
-
     cursor:default;
 }
 
