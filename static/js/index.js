@@ -260,6 +260,8 @@ function getResponse() {
 
             Plotly.update("magnitude_response", magnitude_update);
             Plotly.update("phase_response", phase_update);
+            Plotly.update("current_apf_graph", phase_update);
+
 
         }
     })
@@ -478,17 +480,20 @@ drawAPFResponse("cumulative_apf_graph", [], []);
 
 
 // Get A value from input data
-let input_text = document.querySelector(".input_a_value input");
+let a_real = document.getElementById("a_real");
+let a_img = document.getElementById("a_img");
 var add_filter_btn = document.getElementById("add_filter_btn");
 var apf_filters_container = document.getElementById("added_content");
+var apply_filter_btn = document.getElementById("apply_filter_btn");
 
 // List that contains all filters to be sent to the back-end
 let apf_list = []
+let apf_polar_list = []
 
 // To check if filter was already used
 function checkList (a) {
-    for (let i = 0; i < apf_list.length; i++){
-        if (a == apf_list[i]){
+    for (let i = 0; i < apf_polar_list.length; i++){
+        if (a == apf_polar_list[i]){
             return true;
         }
     }
@@ -524,23 +529,42 @@ function addFilterInMenu(a) {
 
 // Add Filter Button
 add_filter_btn.onclick = function () {
-    // to remove white spaces
-    var input_a = input_text.value.replace(/\s/g, "");
+    // var input_a = input_text.value.replace(/\s/g, "");
+
+    let filter_polar = "";
+    if (a_img.value < 0){
+        filter_polar = a_real.value + a_img.value + "j";
+    }
+    else if (a_img.value > 0) {
+        filter_polar = a_real.value + "+" + a_img.value + "j";
+    }
+    else {
+        filter_polar = a_real.value
+    }
+
     // if input is empty or already used
-    if (input_a === '' || checkList(input_a)){
-        input_text.value = "";
-        input_text.focus();
+    if (filter_polar === '' || checkList(filter_polar)){
+        a_real.value = "";
+        a_img.value = "";
+        a_real.focus();
         return;
     }
 
     // Push filter to the list
-    apf_list.push(input_a);
-    // Add filter to the menu
-    addFilterInMenu(input_a);
+    apf_list.push({ real: a_real.value, img: a_img.value });
+    apf_polar_list.push(filter_polar);
 
-    input_text.value = "";
-    input_text.focus();
+    // Add filter to the menu
+    addFilterInMenu(filter_polar);
+
+    a_real.value = "";
+    a_img.value = "";
+    a_real.focus();
+
+    // plot filter response 
+    allPassFiltersResponse(apf_list);
 };
+
 
 // Delete Filter
 document.addEventListener('click', function(e) {
@@ -548,21 +572,30 @@ document.addEventListener('click', function(e) {
         
         // Remove it from filters list
         let index = 0;
-        for (let i = 0; i < apf_list.length; i++){
-            if (e.target.id == apf_list[i]){
+        for (let i = 0; i < apf_polar_list.length; i++){
+            if (e.target.id == apf_polar_list[i]){
                 index = i;
+                break;
             }
         }
+
         apf_list.splice(index, 1);
+        apf_polar_list.splice(index, 1);
+
         // remove it from history
         e.target.parentNode.remove();
+
+        // plot filter response 
+        allPassFiltersResponse(apf_list);
     }
 });
 
+
+// Catalogue
 var swiper = new Swiper(".swiper", {
     nextButton: '.swiper-button-next',
     prevButton: '.swiper-button-prev',
-    grabCursor: true,
+    // grabCursor: true,
     centeredSlides: true,
     slidesPerView: "auto",
 
@@ -573,7 +606,7 @@ var swiper = new Swiper(".swiper", {
         modifier: 2,
         slideShadows: true
     },
-    spaceBetween: 50,
+    spaceBetween: 40,
     loop: true,
     pagination: {
         el: ".swiper-pagination",
@@ -584,20 +617,80 @@ var swiper = new Swiper(".swiper", {
         prevEl: ".swiper-button-prev"
     },
 
-    onClick: function (sw, e) {
+    // Catalogue on click
+    onClick: function (e) {
+        real = document.querySelector('.swiper-slide-active .info .real').textContent;
+        img = document.querySelector('.swiper-slide-active .info .img').textContent;
+        let polar = "";
 
-        // var collection = document.getElementsByClassName("swiper-slide-active");
-        // console.log(collection);
+        if (img == ''){
+            polar = real;
+        }
+        else {
+            polar = real + "+" + img + "j";
+        }
 
-        // var div = document.getElementsByClassName('swiper-slide-active"');
-        // var divs = div.getElementsByClassName('info');
-        // console.log(divs)
+        if (checkList(polar)){
+            return
+        }
+        // Push filter to the list
+        apf_list.push({ real: real, img: img });
+        apf_polar_list.push(polar);
 
-
-        var targetDiv = document.querySelector('.swiper-slide-active .info h4').textContent;
-        console.log(targetDiv);
+        // Add filter to the menu
+        addFilterInMenu(polar);
+        // plot filter response 
+        allPassFiltersResponse(apf_list);
 
     }
-
-
 });
+
+function allPassFiltersResponse(apf_list) {
+    $.ajax({
+        contentType: "application/json;charset=utf-8",
+        url: 'http://127.0.0.1:5000/allPassPhase',
+        type: 'POST',
+        data: JSON.stringify(apf_list),
+        cache: false,
+        dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        processData: false,
+
+        success: function (response) {
+            freq = response["freq"];
+            Ap_phase = response["Ap_phase"];
+            var phase_update = { x: [freq], y: [Ap_phase] };
+
+            Plotly.update("cumulative_apf_graph", phase_update);
+        },
+    });
+};
+
+
+// apply filter on original phase
+apply_filter_btn.onclick = function () {
+    finalResponse();
+}
+
+function finalResponse() {
+    $.ajax({
+        url: 'http://127.0.0.1:5000/finalPhaseResponse',
+        type: 'POST',
+        data: false,
+        cache: false,
+        dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        processData: false,
+
+        success: function (response) {
+            freq = response["freq"];
+            final_phase = response["result_phase"];
+            var phase_update = { x: [freq], y: [final_phase] };
+
+            Plotly.update("phase_response", phase_update);
+            Plotly.update("current_apf_graph", phase_update);
+        },
+    });
+};
