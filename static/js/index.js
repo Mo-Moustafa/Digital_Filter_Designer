@@ -694,3 +694,24 @@ function finalResponse() {
         },
     });
 };
+
+
+
+// Import and export filter
+
+var import_filter_btn = document.getElementById("import_filter_btn");
+var export_btn = document.getElementById("export_btn");
+
+// --------- success of import btn
+// clear shapes first
+// shapes = [];
+// push zeros and poles inside shapes
+// for loop {
+//     shapes.push({ x: itemX, y: itemY, type: "zero" });
+//     shapes.push({ x: itemX, y: itemY, type: "pole" });
+// }
+
+// draw on canvas then get response
+// drawShapes(shapes);
+// convertToPolar(shapes);
+

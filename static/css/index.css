@@ -14,6 +14,46 @@ body {
 /* @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap"); */
 
 /*//////// First Column /////////*/
+/* Import Export Buttons */
+
+.filter_im_ex{
+    transform: translateY(60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+#import_filter_btn{
+    width: 0;
+}
+#import_filter_label{
+    width: 8rem;
+    font-size: 17px;
+    height: 3rem;
+    padding: 14px 40px;
+}
+
+.ex_imp_btn {
+    background-color: rgb(33, 34, 37);
+    width: 8rem;
+    height: 3rem;
+    border: none;
+    font-size: 17px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    transition: ease 0.3s;
+}
+
+.ex_imp_btn:hover {
+    box-shadow: 0 0 10px rgb(68, 59, 59);
+}
+
+.ex_imp_btn:active {
+    scale: 0.95;
+}
+
 /* Z-Plane Canvas */
 .z-plane {
     background-color: rgb(238, 238, 238);
