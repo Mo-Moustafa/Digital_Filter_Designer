@@ -46,11 +46,14 @@
         <div class="filter_im_ex">
             <!-- Import Filter -->
             <form id="upload-filter" method="post" enctype="multipart/form-data">
-                <label for="import_filter_btn" class="ex_imp_btn" id="import_filter_label">Import</label>
-                <input  id="import_filter_btn" type="file" name="file" />
-            </form>
+                <label for="import_filter_btn" class="ex_imp_btn" id="import_filter_label" >Import</label>
+                <input  id="import_filter_btn" type="file" name="file" hidden />
+                <a><i  class="fa" id="import"></i></a>
 
-            <button class="ex_imp_btn" id="export_btn">Export</button>
+            </form>
+            <a id="downloadAnchorElem" style="display:none"></a>
+
+            <button class="ex_imp_btn" id="export_btn" >Export</button>
         </div>
         
         <div class="graph">
@@ -190,8 +193,7 @@
                     <div class="swiper-pagination"></div>
         
                     <!-- If we need navigation buttons -->
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
+        
                 </div>
             </div>
         

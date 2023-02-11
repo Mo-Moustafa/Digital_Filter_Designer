@@ -238,11 +238,39 @@ function convertToPolar(shapes) {
     getResponse();
 };
 
+function convertToPixels(zeros, poles) {
+    let shapes = []
+    let x = 0;
+    let y = 0;
+    for (let zero of zeros) {
+        x = (zero["real"] * 160) + 180
+        y = (zero["img"] * 160) + 180
+        shapes.push({ x: x, y: y, type: "zero" });
+    }
+    for (let pole of poles) {
+        x = (pole["real"] * 160) + 180
+        y = (pole["img"] * 160) + 180
+        shapes.push({ x: x, y: y, type: "pole" });
+    }
+    // console.log(zeros)
+    // console.log(poles)
+    // console.log(shapes)
+
+    drawShapes(shapes);
+
+
+    getResponse();
+
+};
+
+
 // ----------------------------------------------------------
 
 // ------------------- Second Column 
 
 // Getting Mag and Phase Response from Back-End
+
+
 function getResponse() {
     $.ajax({
         contentType: "application/json;charset=utf-8",
@@ -422,12 +450,21 @@ import_signal_btn.onchange = function () {
             x_axis = data["x_axis"];
             y_axis = data["y_axis"];
             filterd_signal = data["filterd_signal"];
-
-            // plot input and output dynamically 
-            for (let i = 1; i < x_axis.length; i+=30) {
-                Plotly.extendTraces("input_signal", { y: [[y_axis[i]]], x: [[x_axis[i]]] }, [0]);
-                Plotly.extendTraces("output_signal", { y: [[filterd_signal[i]]], x: [[x_axis[i]]] }, [0]);
+            function getData() {
+                return Math.random();
             }
+
+            Plotly.plot('input_signal', [{
+                y: [getData()],
+                type: 'line'
+            }]);
+
+            setInterval( function plot() {
+
+                Plotly.extendTraces('input_signal', { y: [[getData()]] }, [0]);
+                alert(suii)
+            }(), 500);
+        
         }
     });
 };
@@ -443,10 +480,10 @@ var all_pass_wrapper = document.getElementById("all_pass_wrapper");
 var all_pass_close = document.getElementById("all_pass_close");
 
 allpass_btn.onclick = function () {
-    all_pass_wrapper.style.scale = "1";  
+    all_pass_wrapper.style.scale = "1";
 };
 all_pass_close.onclick = function () {
-    all_pass_wrapper.style.scale = "0";  
+    all_pass_wrapper.style.scale = "0";
 };
 
 // Initailize the response
@@ -491,9 +528,9 @@ let apf_list = []
 let apf_polar_list = []
 
 // To check if filter was already used
-function checkList (a) {
-    for (let i = 0; i < apf_polar_list.length; i++){
-        if (a == apf_polar_list[i]){
+function checkList(a) {
+    for (let i = 0; i < apf_polar_list.length; i++) {
+        if (a == apf_polar_list[i]) {
             return true;
         }
     }
@@ -524,7 +561,7 @@ function addFilterInMenu(a) {
     // Finish the div then append it
     filter_div.appendChild(filter_text);
     filter_div.appendChild(del_btn);
-    apf_filters_container.appendChild(filter_div);    
+    apf_filters_container.appendChild(filter_div);
 };
 
 // Add Filter Button
@@ -532,7 +569,7 @@ add_filter_btn.onclick = function () {
     // var input_a = input_text.value.replace(/\s/g, "");
 
     let filter_polar = "";
-    if (a_img.value < 0){
+    if (a_img.value < 0) {
         filter_polar = a_real.value + a_img.value + "j";
     }
     else if (a_img.value > 0) {
@@ -543,7 +580,7 @@ add_filter_btn.onclick = function () {
     }
 
     // if input is empty or already used
-    if (filter_polar === '' || checkList(filter_polar)){
+    if (filter_polar === '' || checkList(filter_polar)) {
         a_real.value = "";
         a_img.value = "";
         a_real.focus();
@@ -567,13 +604,13 @@ add_filter_btn.onclick = function () {
 
 
 // Delete Filter
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (e.target.classList.contains("del-filter")) {
-        
+
         // Remove it from filters list
         let index = 0;
-        for (let i = 0; i < apf_polar_list.length; i++){
-            if (e.target.id == apf_polar_list[i]){
+        for (let i = 0; i < apf_polar_list.length; i++) {
+            if (e.target.id == apf_polar_list[i]) {
                 index = i;
                 break;
             }
@@ -623,14 +660,14 @@ var swiper = new Swiper(".swiper", {
         img = document.querySelector('.swiper-slide-active .info .img').textContent;
         let polar = "";
 
-        if (img == ''){
+        if (img == '') {
             polar = real;
         }
         else {
             polar = real + "+" + img + "j";
         }
 
-        if (checkList(polar)){
+        if (checkList(polar)) {
             return
         }
         // Push filter to the list
@@ -701,17 +738,44 @@ function finalResponse() {
 
 var import_filter_btn = document.getElementById("import_filter_btn");
 var export_btn = document.getElementById("export_btn");
+var headers = ['zeros', 'poles'];
+var columns = [zeros, poles];
+let exportFilter = () => {
 
-// --------- success of import btn
-// clear shapes first
-// shapes = [];
-// push zeros and poles inside shapes
-// for loop {
-//     shapes.push({ x: itemX, y: itemY, type: "zero" });
-//     shapes.push({ x: itemX, y: itemY, type: "pole" });
-// }
+    let filter = {
+        zeros: zeros,
+        poles: poles
+    };
 
-// draw on canvas then get response
-// drawShapes(shapes);
-// convertToPolar(shapes);
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(filter));
+    var dlAnchorElem = document.getElementById('downloadAnchorElem');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "Digital Filter.json");
+    dlAnchorElem.click();
+}
+export_btn.addEventListener("click", exportFilter);
+let importBtn = document.getElementById('import')
+
+
+let importFilter = (event) => {
+    let filter
+    var reader = new FileReader();
+    reader.onload = (event) => {
+        filter = JSON.parse(event.target.result);
+        zeros = filter.zeros
+        poles = filter.poles
+        convertToPixels(zeros, poles)
+    };
+    reader.readAsText(event.target.files[0]);
+}
+
+import_filter_btn.onchange = (event) => {
+    importFilter(event)
+}
+importBtn.onclick = () => {
+    import_filter_btn.click()
+
+}
+
+
 

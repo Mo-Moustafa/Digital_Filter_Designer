@@ -9,6 +9,8 @@ body {
     gap: 15px;
     box-sizing: border-box;
     font-family: sans-serif;
+    text-rendering: optimizeSpeed;
+
 }
 
 /* @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap"); */
@@ -16,7 +18,7 @@ body {
 /*//////// First Column /////////*/
 /* Import Export Buttons */
 
-.filter_im_ex{
+.filter_im_ex {
     transform: translateY(60px);
     display: flex;
     align-items: center;
@@ -24,10 +26,11 @@ body {
     gap: 20px;
 }
 
-#import_filter_btn{
+#import_filter_btn {
     width: 0;
 }
-#import_filter_label{
+
+#import_filter_label {
     width: 8rem;
     font-size: 17px;
     height: 3rem;
@@ -400,7 +403,16 @@ input:checked+.radio_tile span {
     margin-top: -265px;
 }
 
-.name span{
+.swiper-button-next,
+.swiper-button-prev {
+    text-rendering: auto;
+}
+
+.swiper-button-next {
+    opacity: 1;
+}
+
+.name span {
     font-size: 18px;
 }
 
@@ -456,7 +468,7 @@ input:checked+.radio_tile span {
     background-color: grey;
 }
 
-.swiper .swiper-button-prev,
+/* .swiper .swiper-button-prev,
 .swiper .swiper-button-next {
     top: 53%;
     width: 25px;
@@ -469,8 +481,10 @@ input:checked+.radio_tile span {
     outline: 0;
     transition: background-color 0.2s ease, color 0.2s ease;
     margin-top: -265px;
+    text-rendering: auto;
 
-}
+
+} */
 
 .swiper .swiper-button-prev::after,
 .swiper .swiper-button-next::after {
@@ -487,23 +501,32 @@ input:checked+.radio_tile span {
     left: 1px;
 }
 
-.swiper .swiper-button-prev,
+/* .swiper .swiper-button-prev,
 .swiper .swiper-container-rtl .swiper-button-next {
-    left: 10px;
+    margin-left: 10px;
     right: auto;
+    margin-top: -250px;
 }
 
 .swiper .swiper-button-next,
 .swiper .swiper-container-rtl .swiper-button-prev {
+    margin-right: 17px;
+    margin-top: -250px;
+
     right: 10px;
     left: auto;
-}
+} */
 
 .swiper .swiper-button-prev.swiper-button-disabled,
 .swiper .swiper-button-next.swiper-button-disabled {
     opacity: 0;
     cursor: auto;
     pointer-events: none;
+}
+
+.triangle-right {
+    border-left:
+        30px solid black;
 }
 
 /* ---------- Bottom Half ---------- */
