@@ -20,6 +20,8 @@ allPassPoles = []
 appliedAPFZeros = []
 appliedAPFPoles = []
 
+signal_output = [1 for i in range(15)]
+
 
 @app.route('/')
 def home():
@@ -55,26 +57,24 @@ def complex():
     return json.dumps({"freq": freq.tolist(), "mag": mag_gain.tolist(), "phase": phase_gain.tolist()})
 
 
-signall = [1 for i in range(15)]
-
-
 @app.route('/applyFilter', methods=['GET', 'POST'])
 def applyFilter():
     jsonData = request.get_json()
     input_point = float(jsonData['signalPoint'])
-    signall.append(input_point)
+    signal_output.append(input_point)
     filter_order = max(len(combined_poles), len(combined_zeros))
 
-    if len(signall) > 2 * filter_order and len(signall) > 50:
-        del signall[0:filter_order]
+    if len(signal_output) > 2 * filter_order and len(signal_output) > 50:
+        del signal_output[0:filter_order]
 
     finalFilterZeros = combined_zeros + appliedAPFZeros
     finalFilterPoles = combined_poles + appliedAPFPoles
     num, dem = signal.zpk2tf(finalFilterZeros, finalFilterPoles, 1)
-    output_signal = signal.lfilter(num, dem, signall).real
+    output_signal = signal.lfilter(num, dem, signal_output).real
     output_point = output_signal[-1]
-    print(output_point)
-    return [output_point]
+    # return [output_point]
+    return jsonify({"y_point": output_point.tolist()})
+    
 
 
 @app.route('/generated', methods=['GET', 'POST'])
