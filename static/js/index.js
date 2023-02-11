@@ -239,7 +239,7 @@ function convertToPolar(shapes) {
 };
 
 function convertToPixels(zeros, poles) {
-    let shapes = []
+    shapes = []
     let x = 0;
     let y = 0;
     for (let zero of zeros) {
@@ -459,12 +459,20 @@ import_signal_btn.onchange = function () {
                 type: 'line'
             }]);
 
-            setInterval( function plot() {
+            var cnt = 0;
 
+            setInterval(function () {
+                console.log(getData())
                 Plotly.extendTraces('input_signal', { y: [[getData()]] }, [0]);
-                alert(suii)
-            }(), 500);
-        
+                cnt++;
+                if (cnt > 500) {
+                    Plotly.relayout('input_signal', {
+                        xaxis: {
+                            range: [cnt - 500, cnt]
+                        }
+                    });
+                }
+            }, 15);
         }
     });
 };
@@ -738,8 +746,8 @@ function finalResponse() {
 
 var import_filter_btn = document.getElementById("import_filter_btn");
 var export_btn = document.getElementById("export_btn");
-var headers = ['zeros', 'poles'];
-var columns = [zeros, poles];
+// var headers = ['zeros', 'poles'];
+// var columns = [zeros, poles];
 let exportFilter = () => {
 
     let filter = {
@@ -777,5 +785,89 @@ importBtn.onclick = () => {
 
 }
 
+let working = false
+let interval
+let uploadSignal = document.getElementById('import_signal_btn')
+uploadSignal.onchange = (e) => {
+    let x = [];
+    let y = [];
+    let file = e.target.files[0];
+    // let data = d3.csvParse(file);
+    var reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function (event) {
+        var csvData = event.target.result;
+        let parsedCSV = d3.csvParse(csvData);
+        let keys = Object.keys(parsedCSV[0]);
+        parsedCSV.forEach(function (d, i) {
+            // if (i == 0) return true; // skip the header
+            x.push(d[keys[0]]);
+            y.push(d[keys[1]]);
+        });
+        // layout = { xaxis: { range: [0, 5] } }
+        var layout = {
+            width: 400,
+            height: 170,
+            margin: { t: 25, b: 35, l: 40, r: 5 },
 
+            xaxis: { title: 'Time [s]', range: [0, 3] },
+            yaxis: { title: "Amplitude" },
 
+        };
+        Plotly.newPlot(input_signal, [{ y: [], x: [], type: 'line' }], layout)
+        Plotly.newPlot(output_signal, [{ y: [], x: [], type: 'line' }], layout)
+        t = 0
+        i = 0
+        if (working) {
+            clearInterval(interval)
+        }
+        working = true
+        interval = setInterval(() => {
+            if (i < y.length) {
+                let filtered_point = update_output(y[i]);
+                plot_input_Output(y[i], filtered_point, x[i])
+                i += 30
+            }
+            else {
+                clearInterval(interval)
+                working = false
+            }
+            if (i == y.length) {
+                clearInterval()
+            }
+        }, 1000)
+
+    }
+}
+
+let plot_input_Output = (inputPoint, outputPoint, t) => {
+    console.log(outputPoint)
+    Plotly.extendTraces(input_signal, { y: [[inputPoint]], x: [[t]] }, [0])
+    Plotly.extendTraces(output_signal, { y: [[outputPoint]], x: [[t]] }, [0])
+    // t+=0.02
+    range = { range: [t - 4.5, t + 0.5] }
+    // layout['xaxis'] = range
+    if (t > 4.5) {
+        Plotly.relayout(input_signal, layout)
+        Plotly.relayout(output_signal, layout)
+    }
+}
+
+let update_output = (signalPoint) => {
+    let signalOutput
+    $.ajax({
+        type: 'POST',
+        url: 'http://127.0.0.1:5000/applyFilter',
+        data: JSON.stringify({ signalPoint }),
+        cache: false,
+        dataType: 'json',
+        async: false,
+        contentType: 'application/json',
+        processData: false,
+        success: function (data) {
+            signalOutput = data[0];
+            console.log(signalOutput)
+        },
+    });
+    return signalOutput
+}
