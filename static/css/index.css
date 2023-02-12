@@ -14,8 +14,6 @@ body {
 
 }
 
-/* @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap"); */
-
 /*//////// First Column /////////*/
 /* Import Export Buttons */
 
@@ -35,7 +33,7 @@ body {
     width: 8rem;
     font-size: 17px;
     height: 3rem;
-    padding: 14px 40px;
+    padding: 14px 40px 16px 40px;
 }
 
 .ex_imp_btn {
@@ -266,7 +264,7 @@ input:checked+.radio_tile span {
 }
 
 #import_signal_label {
-    padding: 15px;
+    padding: 14px 18px 16px 18px;
 }
 
 /* Generation Pad */

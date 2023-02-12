@@ -193,7 +193,7 @@ canvas.addEventListener('contextmenu', function (e) {
     }
     if (menu) {
         contextMenu.style.left = `${startX}px`;
-        contextMenu.style.top = `${startY + 130}px`;
+        contextMenu.style.top = `${startY + 180}px`;
         contextMenu.style.visibility = "visible";
     }
 });
