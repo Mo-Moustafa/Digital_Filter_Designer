@@ -252,10 +252,6 @@ function convertToPixels(zeros, poles) {
         y = (pole["img"] * 160) + 180
         shapes.push({ x: x, y: y, type: "pole" });
     }
-    // console.log(zeros)
-    // console.log(poles)
-    // console.log(shapes)
-
     drawShapes(shapes);
 
 
@@ -456,22 +452,21 @@ uploadSignal.onchange = (e) => {
         let parsedCSV = d3.csvParse(csvData);
         let keys = Object.keys(parsedCSV[0]);
         parsedCSV.forEach(function (d, i) {
-            // if (i == 0) return true; // skip the header
             x.push(d[keys[0]]);
             y.push(d[keys[1]]);
         });
-        // layout = { xaxis: { range: [0, 5] } }
+
         var layout = {
             width: 400,
             height: 170,
-            margin: { t: 25, b: 35, l: 40, r: 5 },
+            margin: { t: 25, b: 35, l: 55, r: 5 },
 
             xaxis: { title: 'Time [s]', range: [0, 3] },
             yaxis: { title: "Amplitude" },
 
         };
-        Plotly.newPlot(input_signal, [{ y: [], x: [], type: 'line' }], layout)
-        Plotly.newPlot(output_signal, [{ y: [], x: [], type: 'line' }], layout)
+        Plotly.newPlot(input_signal, [{ y: [], x: [], type: 'line', mode: 'lines'}], layout)
+        Plotly.newPlot(output_signal, [{ y: [], x: [], type: 'line', mode: 'lines'}], layout)
         t = 0
         i = 0
         if (working) {
@@ -482,8 +477,8 @@ uploadSignal.onchange = (e) => {
         interval = setInterval(() => {
             if (i < y.length) {
                 let filtered_point = update_output(y[i]);
-                plot_input_Output(y[i], filtered_point, x[i])
-                i += 30
+                plot_input_Output(y[i], filtered_point, x[i]);
+                i += 100
             }
             else {
                 clearInterval(interval)
@@ -497,15 +492,13 @@ uploadSignal.onchange = (e) => {
 }
 
 let plot_input_Output = (inputPoint, outputPoint, t) => {
-    console.log(outputPoint)
     Plotly.extendTraces(input_signal, { y: [[inputPoint]], x: [[t]] }, [0])
     Plotly.extendTraces(output_signal, { y: [[outputPoint]], x: [[t]] }, [0])
-    // t+=0.02
-    range = { range: [t - 4.5, t + 0.5] }
-    // layout['xaxis'] = range
-    if (t > 4.5) {
-        Plotly.relayout(input_signal, layout)
-        Plotly.relayout(output_signal, layout)
+
+    if (t >= 3) {
+        var update_range = { "xaxis.range": [t - 2.5, t] };
+        Plotly.relayout("input_signal", update_range);
+        Plotly.relayout("output_signal", update_range);
     }
 }
 
@@ -523,7 +516,6 @@ let update_output = (signalPoint) => {
         processData: false,
         success: function (data) {
             signalOutput = data["y_point"];
-            console.log(signalOutput)
         },
     });
     return signalOutput
